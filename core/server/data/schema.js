@@ -19,7 +19,8 @@ var db = {
             updated_at: {type: 'dateTime', nullable: true},
             updated_by: {type: 'integer', nullable: true},
             published_at: {type: 'dateTime', nullable: true},
-            published_by: {type: 'integer', nullable: true}
+            published_by: {type: 'integer', nullable: true},
+            primary_tag_id: {type: 'integer', nullable: true, unsigned: true, references: 'tags.id'}
         },
         users: {
             id: {type: 'increments', nullable: false, primary: true},
