@@ -69,6 +69,19 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
             .create(deferred);
     }),
 
+    tags: Ember.computed('model.tags',function(){
+        // Loaded asynchronously, so must use promise proxies.
+        var deferred = {};
+
+        deferred.promise = this.store.find('tag', {limit: 'all'}).then(function (tags) {
+            return tags;
+        })
+
+        return Ember.ArrayProxy
+            .extend(Ember.PromiseProxyMixin)
+            .create(deferred);
+    }),
+
     /*jshint unused:false */
     publishedAtValue: Ember.computed('model.published_at', {
         get: function () {

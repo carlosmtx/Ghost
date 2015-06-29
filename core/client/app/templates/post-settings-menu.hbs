@@ -27,17 +27,16 @@
                 {{gh-url-preview slug=slugValue tagName="p" classNames="description"}}
             </div>
 
-
             <div class="form-group for-select">
-                <label for="cathegory-list">Primary Tag</label>
+                <label for="primary-tag">Primary Tag</label>
                 <span class="input-icon">
                     <span class="gh-select" tabindex="0">
                     {{view "select"
-                        name="post-setting-primary-tag"
-                        id="primary-tag-list"
+                        name="primary-tag"
+                        id="primary-tag"
                         content=tags
-                        optionValuePath="tag.id"
-                        optionLabelPath="tag.name"
+                        optionValuePath="content.id"
+                        optionLabelPath="content.name"
                         selection=selectedcathegory}}
                     </span>
                 </span>
