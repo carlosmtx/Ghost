@@ -265,17 +265,17 @@ Post = ghostBookshelf.Model.extend({
     },
 
     primary_tag_id: function () {
-        return this.belongsTo('Tag', 'primary_tag');
+        return this.belongsTo('Tag', 'primary_tag_id');
     },
 
     toJSON: function (options) {
         var attrs = ghostBookshelf.Model.prototype.toJSON.call(this, options);
 
         attrs.author = attrs.author || attrs.author_id;
-        attrs.url = config.urlPathForPost(attrs, permalinkSetting);
-        delete attrs.author_id;
-
         attrs.primary_tag = attrs.primary_tag || attrs.primary_tag_id;
+        attrs.url = config.urlPathForPost(attrs, permalinkSetting);
+
+        delete attrs.author_id;
         delete attrs.primary_tag_id;
 
         return attrs;
