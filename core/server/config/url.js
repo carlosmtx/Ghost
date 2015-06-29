@@ -94,13 +94,13 @@ function createUrl(urlPath, absolute, secure) {
 function urlPathForPost(post, permalinks) {
     var output = '',
         tags = {
-            year:        function () { return moment(post.published_at).format('YYYY'); },
-            month:       function () { return moment(post.published_at).format('MM'); },
-            day:         function () { return moment(post.published_at).format('DD'); },
-            author:      function () { return post.author.slug; },
-            primary_tag: function () { return post.primary_tag != null ? post.primary_tag.slug : ''; },
-            slug:        function () { return post.slug; },
-            id:          function () { return post.id; }
+            year:           function () { return moment(post.published_at).format('YYYY'); },
+            month:          function () { return moment(post.published_at).format('MM'); },
+            day:            function () { return moment(post.published_at).format('DD'); },
+            author:         function () { return post.author.slug; },
+            'primary_tag?': function () { return post.primary_tag && post.primary_tag.slug ? post.primary_tag.slug : ''; },
+            slug:           function () { return post.slug; },
+            id:             function () { return post.id; }
         };
 
     if (post.page) {
@@ -110,13 +110,15 @@ function urlPathForPost(post, permalinks) {
     }
 
     // replace tags like :slug or :year with actual values
-    output = output.replace(/(:[a-z_]+)/g, function (match) {
+    output = output.replace(/(:[a-z_\?]+)/g, function (match) {
         if (_.has(tags, match.substr(1))) {
             return tags[match.substr(1)]();
         }
     });
 
     output = output.replace(/\/\//g, '/');
+
+    console.log(output);
 
     return output;
 }

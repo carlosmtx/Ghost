@@ -27,7 +27,7 @@ function getPostPage(options) {
         if (!isNaN(postsPerPage) && postsPerPage > 0) {
             options.limit = postsPerPage;
         }
-        options.include = 'author,tags,fields';
+        options.include = 'author,tags,fields,primary_tag';
         return api.posts.browse(options);
     });
 }
@@ -252,7 +252,7 @@ frontendControllers = {
         var params = {
                 uuid: req.params.uuid,
                 status: 'all',
-                include: 'author,tags,fields'
+                include: 'author,tags,fields,primary_tag'
             };
 
         api.posts.read(params).then(function then(result) {
@@ -286,6 +286,8 @@ frontendControllers = {
 
             editFormat = permalink.substr(permalink.length - 1) === '/' ? ':edit?' : '/:edit?';
 
+            console.log(permalink + editFormat);
+
             // Convert saved permalink into a path-match function
             permalink = routeMatch(permalink + editFormat);
             match = permalink(postPath);
@@ -307,6 +309,8 @@ frontendControllers = {
             }
 
             params = match;
+
+            console.log(params);
 
             // Sanitize params we're going to use to lookup the post.
             postLookup = _.pick(params, 'slug', 'id');
