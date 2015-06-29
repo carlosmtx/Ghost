@@ -7,7 +7,7 @@
         </div>
         <div class="settings-menu-content">
             {{gh-uploader uploaded="setCoverImage" canceled="clearCoverImage" description="Add post image" image=model.image uploaderReference=uploaderReference tagName="section"}}
-            <form>
+            <form>  
             <div class="form-group">
                 <label for="url">Post URL</label>
                 {{#if model.isPublished}}
@@ -20,10 +20,27 @@
                 </a>
                 {{/if}}
 
+
                 <span class="input-icon icon-link">
                     {{gh-input class="gh-input post-setting-slug" id="url" value=slugValue name="post-setting-slug" focus-out="updateSlug" selectOnClick="true" stopEnterKeyDownPropagation="true"}}
                 </span>
                 {{gh-url-preview slug=slugValue tagName="p" classNames="description"}}
+            </div>
+
+
+            <div class="form-group for-select">
+                <label for="cathegory-list">Primary Tag</label>
+                <span class="input-icon">
+                    <span class="gh-select" tabindex="0">
+                    {{view "select"
+                        name="post-setting-primary-tag"
+                        id="primary-tag-list"
+                        content=tags
+                        optionValuePath="tag.id"
+                        optionLabelPath="tag.name"
+                        selection=selectedcathegory}}
+                    </span>
+                </span>
             </div>
 
             <div class="form-group">
