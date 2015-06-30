@@ -27,6 +27,8 @@ export default DS.Model.extend(ValidationEngine, {
     created_by: DS.attr(),
     tags: DS.hasMany('tag', {embedded: 'always'}),
     url: DS.attr('string'),
+    category: DS.belongsTo('tag',  {async: true}),
+    category_id: DS.attr('number'),
 
     config: Ember.inject.service(),
     ghostPaths: Ember.inject.service('ghost-paths'),

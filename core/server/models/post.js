@@ -264,19 +264,19 @@ Post = ghostBookshelf.Model.extend({
         return this.morphMany('AppField', 'relatable');
     },
 
-    primary_tag_id: function () {
-        return this.belongsTo('Tag', 'primary_tag_id');
+    category_id: function () {
+        return this.belongsTo('Tag', 'category_id');
     },
 
     toJSON: function (options) {
         var attrs = ghostBookshelf.Model.prototype.toJSON.call(this, options);
 
         attrs.author = attrs.author || attrs.author_id;
-        attrs.primary_tag = attrs.primary_tag || attrs.primary_tag_id;
+        attrs.category = attrs.category || attrs.category_id;
         attrs.url = config.urlPathForPost(attrs, permalinkSetting);
 
         delete attrs.author_id;
-        delete attrs.primary_tag_id;
+        delete attrs.category_id;
 
         return attrs;
     }

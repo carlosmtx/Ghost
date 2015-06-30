@@ -27,6 +27,11 @@ utils = {
                 object.posts[0].author_id = object.posts[0].author;
                 delete object.posts[0].author;
             }
+
+            if (object.posts[0].hasOwnProperty('category')) {
+                object.posts[0].category_id = object.posts[0].category;
+                delete object.posts[0].category;
+            }
         }
 
         if (editId && object[docName][0].id && parseInt(editId, 10) !== parseInt(object[docName][0].id, 10)) {

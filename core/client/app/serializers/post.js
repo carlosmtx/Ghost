@@ -13,6 +13,7 @@ var PostSerializer = ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
         // without requiring an extra get request (since it is an
         // async relationship).
         hash.author_id = hash.author;
+        hash.category_id = hash.category;
 
         return this._super(type, hash);
     },
@@ -46,6 +47,7 @@ var PostSerializer = ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
         delete data.html;
         // Inserted locally as a convenience.
         delete data.author_id;
+        delete data.category_id;
         // Read-only virtual property.
         delete data.url;
 

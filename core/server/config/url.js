@@ -98,7 +98,7 @@ function urlPathForPost(post, permalinks) {
             month:          function () { return moment(post.published_at).format('MM'); },
             day:            function () { return moment(post.published_at).format('DD'); },
             author:         function () { return post.author.slug; },
-            'primary_tag?': function () { return post.primary_tag && post.primary_tag.slug ? post.primary_tag.slug : ''; },
+            'category?':    function () { return post.category && post.category.slug ? post.category.slug : ''; },
             slug:           function () { return post.slug; },
             id:             function () { return post.id; }
         };
@@ -117,8 +117,6 @@ function urlPathForPost(post, permalinks) {
     });
 
     output = output.replace(/\/\//g, '/');
-
-    console.log(output);
 
     return output;
 }

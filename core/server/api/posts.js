@@ -8,7 +8,7 @@ var Promise         = require('bluebird'),
     utils           = require('./utils'),
 
     docName         = 'posts',
-    allowedIncludes = ['created_by', 'updated_by', 'published_by', 'author', 'tags', 'fields', 'next', 'previous', 'primary_tag'],
+    allowedIncludes = ['created_by', 'updated_by', 'published_by', 'author', 'tags', 'fields', 'next', 'previous', 'category'],
     posts;
 
 // ## Helpers
@@ -23,9 +23,9 @@ function prepareInclude(include) {
         include[index] = 'author_id';
     }
 
-    index = include.indexOf('primary_tag');
+    index = include.indexOf('category');
     if (index !== -1) {
-        include[index] = 'primary_tag_id';
+        include[index] = 'category_id';
     }
 
     return include;

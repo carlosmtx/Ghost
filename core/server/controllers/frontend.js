@@ -27,7 +27,7 @@ function getPostPage(options) {
         if (!isNaN(postsPerPage) && postsPerPage > 0) {
             options.limit = postsPerPage;
         }
-        options.include = 'author,tags,fields,primary_tag';
+        options.include = 'author,tags,fields,category';
         return api.posts.browse(options);
     });
 }
@@ -252,7 +252,7 @@ frontendControllers = {
         var params = {
                 uuid: req.params.uuid,
                 status: 'all',
-                include: 'author,tags,fields,primary_tag'
+                include: 'author,tags,fields,category'
             };
 
         api.posts.read(params).then(function then(result) {
@@ -315,7 +315,7 @@ frontendControllers = {
             // Sanitize params we're going to use to lookup the post.
             postLookup = _.pick(params, 'slug', 'id');
             // Add author, tag and fields
-            postLookup.include = 'author,tags,fields,primary_tag';
+            postLookup.include = 'author,tags,fields,category';
 
             // Query database to find post
             return api.posts.read(postLookup);

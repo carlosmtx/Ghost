@@ -27,20 +27,33 @@
                 {{gh-url-preview slug=slugValue tagName="p" classNames="description"}}
             </div>
 
-            <div class="form-group for-select">
-                <label for="primary-tag">Primary Tag</label>
-                <span class="input-icon">
-                    <span class="gh-select" tabindex="0">
-                    {{view "select"
-                        name="primary-tag"
-                        id="primary-tag"
-                        content=tags
-                        optionValuePath="content.id"
-                        optionLabelPath="content.name"
-                        selection=selectedcathegory}}
-                    </span>
-                </span>
+
+            <div>
+                <label for="category">Category</label>
+
+                <div class="form-group for-checkbox">
+                    <label class="checkbox" for="static-page" {{action "toggleCategory" bubbles="false"}}>
+                        {{input type="checkbox" name="category-enabled" id="toggleCategory" class="gh-input post-setting-toggle-category" checked=categoryEnabled}}
+                        <span class="input-toggle-component"></span>
+                        <p>Enabled</p>
+                    </label>
+
+                    {{#if categoryEnabled}}
+                        <span class="input-icon">
+                            <span class="gh-select" tabindex="0">
+                                {{view "select"
+                                name="category"
+                                id="category"
+                                content=tags
+                                optionValuePath="content.id"
+                                optionLabelPath="content.name"
+                                selection=selectedCategory}}
+                            </span>
+                        </span>
+                    {{/if}}
+                </div>
             </div>
+
 
             <div class="form-group">
                 <label for="post-setting-date">Publish Date</label>

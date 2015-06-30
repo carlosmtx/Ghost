@@ -11,6 +11,7 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
     debounceId: null,
     lastPromise: null,
     selectedAuthor: null,
+    selectedCategory: null,
     uploaderReference: null,
 
     application: Ember.inject.controller(),
@@ -20,12 +21,45 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
 
     initializeSelectedAuthor: function () {
         var self = this;
-
         return this.get('model.author').then(function (author) {
             self.set('selectedAuthor', author);
             return author;
         });
     }.observes('model'),
+
+    initializeSelectedCategory : function(){
+        var self = this;
+        return this.get('model.category').then(function (category) {
+            self.set('selectedCategory', category);
+            self.set('categoryEnabled', !!category);
+            return category;
+        });
+    }.observes('model'),
+
+
+    changeCategory : function(){
+        var category = this.get('model.category'),
+            selectedCategory = this.get('selectedCategory'),
+            model = this.get('model'),
+            self = this;
+
+        // return if nothing changed
+        if (category && selectedCategory && selectedCategory.get('id') === category.get('id')) {
+            return;
+        }
+        model.set('category', selectedCategory);
+
+        // if this is a new post (never been saved before), don't try to save it
+        if (this.get('model.isNew')) {
+            return;
+        }
+
+        model.save().catch(function (errors) {
+            self.showErrors(errors);
+            self.set('selectedCategory', category);
+            model.rollback();
+        });
+    }.observes('selectedCategory'),
 
     changeAuthor: function () {
         var author = this.get('model.author'),
@@ -68,19 +102,25 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
             .extend(Ember.PromiseProxyMixin)
             .create(deferred);
     }),
-
+    /****************
+     *
+     * ORIENTAÇÔES MIGA MLIGA
+     *
+     *
+     *
+     */
     tags: Ember.computed('model.tags',function(){
-        // Loaded asynchronously, so must use promise proxies.
-        var deferred = {};
+            // Loaded asynchronously, so must use promise proxies.
+            var deferred = {};
+            deferred.promise = this.store.find('tag', {limit: 'all'}).then(function (tags) {
+                return tags;
+            });
+            return Ember.ArrayProxy
+                .extend(Ember.PromiseProxyMixin)
+                .create(deferred);
+        }
+    ),
 
-        deferred.promise = this.store.find('tag', {limit: 'all'}).then(function (tags) {
-            return tags;
-        })
-
-        return Ember.ArrayProxy
-            .extend(Ember.PromiseProxyMixin)
-            .create(deferred);
-    }),
 
     /*jshint unused:false */
     publishedAtValue: Ember.computed('model.published_at', {
@@ -480,6 +520,14 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
 
         closeNavMenu: function () {
             this.get('application').send('closeNavMenu');
+        },
+
+        toggleCategory : function(){
+            if(!this.get('categoryEnabled')){
+                this.set('selectedCategory',null);
+            }
+
+            this.toggleProperty('categoryEnabled');
         }
     }
 });
