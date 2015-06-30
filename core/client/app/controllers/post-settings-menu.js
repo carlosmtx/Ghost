@@ -27,7 +27,7 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
         });
     }.observes('model'),
 
-    initializeSelectedCategory : function(){
+    initializeSelectedCategory: function () {
         var self = this;
         return this.get('model.category').then(function (category) {
             self.set('selectedCategory', category);
@@ -36,8 +36,7 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
         });
     }.observes('model'),
 
-
-    changeCategory : function(){
+    changeCategory: function () {
         var category = this.get('model.category'),
             selectedCategory = this.get('selectedCategory'),
             model = this.get('model'),
@@ -102,14 +101,8 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
             .extend(Ember.PromiseProxyMixin)
             .create(deferred);
     }),
-    /****************
-     *
-     * ORIENTAÇÔES MIGA MLIGA
-     *
-     *
-     *
-     */
-    tags: Ember.computed('model.tags',function(){
+
+    tags: Ember.computed('model.tags', function () {
             // Loaded asynchronously, so must use promise proxies.
             var deferred = {};
             deferred.promise = this.store.find('tag', {limit: 'all'}).then(function (tags) {
@@ -120,7 +113,6 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
                 .create(deferred);
         }
     ),
-
 
     /*jshint unused:false */
     publishedAtValue: Ember.computed('model.published_at', {
@@ -522,9 +514,9 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
             this.get('application').send('closeNavMenu');
         },
 
-        toggleCategory : function(){
-            if(!this.get('categoryEnabled')){
-                this.set('selectedCategory',null);
+        toggleCategory: function () {
+            if (!this.get('categoryEnabled')) {
+                this.set('selectedCategory', null);
             }
 
             this.toggleProperty('categoryEnabled');
